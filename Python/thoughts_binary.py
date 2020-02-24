@@ -20,7 +20,7 @@ class Problem(object):
 		Set the level structure so that every time you branch, you remember the tile orientation you branched off of in some class variable		
 	"""
 	# take kwargs?
-	def __init__(self, width, height, pentominoes):
+	def __init__(self, *, width, height, pentominoes):
 
 
 		self.width, self.height = width, height
@@ -78,32 +78,33 @@ class Problem(object):
 		# print(tile_rotations[2])
 		# Problem.print_matrix(Problem.syllables_to_matrix(self.tile_to_syllables(tile_rotations[2]), 10, 6))
 
-		# # fix them to top left
-		# for i, rotation in enumerate(syllable_rotations):
-		# 	min_x = min(rotation, key=lambda x: x[1])[1]
-		# 	print(i, min_x)
-		# 	# max_y = max(rotation, key=lambda x: x[0])[0]
-		# 	max_y = 0
-		# 	tile_rotations[i] = tile_rotations[i] << (min_x + max_y*self.width)
-
-		return tile_rotations
-
-		# for i in range(4):
-		# 	tile = self.syllables_to_tile(syllables)
-		# 	stop = False
-		# 	while not stop:
-		# 		for row in range(self.height):
-		# 			if (1 << row*self.width) & tile != 0:  	# if num[0 + row*x_length] == 1:
-		# 				stop = True
-		# 				break
-		# 			else:
-		# 				tile = tile << 1
-
-		# 	tile_rotations.append(tile)
-		# 	Problem.rotate_syllables(syllables)
+		# fix them to top left
+		for i, rotation in enumerate(syllable_rotations):
+			min_x = min(rotation, key=lambda x: x[1])[1]
+			# print(i, min_x)
+			min_y = min(rotation, key=lambda x: x[0])[0]
+			# max_y = 0
+			tile_rotations[i] = tile_rotations[i] >> (min_x + min_y*self.width)
 
 
 
+		tiles = []
+		for i, rotation in enumerate(tile_rotations):
+			max_x = max(syllable_rotations[i], key=lambda x: x[1])[1]
+			max_y = max(syllable_rotations[i], key=lambda x: x[0])[0]
+
+			# putting it into matrix reverses the number. so right shifting the integer
+			# shifts numbers to the left in the board
+			print("#"*20)
+			print(self.width - max_x, self.height - max_y)
+			print("max_x:", max_x, "max_y:", max_y, "height:", self.height, "width:", self.width)
+			Problem.print_matrix(Problem.syllables_to_matrix(self.tile_to_syllables(tile_rotations[i]), 10, 6))
+			for right_shift in range(min(self.width - max_x, 2)):
+				for bottom_shift in range(min(self.height - max_y, 2)):
+					tile = rotation << (right_shift + self.width*bottom_shift)
+					tiles.append(tile)
+
+		return tiles
 
 		"""
 
@@ -127,7 +128,7 @@ class Problem(object):
 		# Put syllables into a 5x5 matrix
 		m = Problem.syllables_to_matrix(syllables)
 
-		# Rotate matrix
+		# Rotate matrix (only works for nxn matrices)
 		m[:] = zip(*m[::-1])
 
 		# TODO Make this more pythonic or better in general
@@ -157,6 +158,7 @@ class Problem(object):
 
 	# Syllables are row major
 	def syllables_to_tile(self, syllables):
+		print(syllables)
 		tile = 0
 		for row, column in syllables:
 			tile += 1 << (row*self.width + column)
@@ -164,17 +166,27 @@ class Problem(object):
 
 
 	def tile_to_syllables(self, tile):
+
 		syllables = []
-		shift = -1
-		while tile != 0:
-			shift += 1
-			if tile % 2 == 1:
-				col = shift % self.width
-				row = (shift - col) // self.width
-				syllables.append((row, col))
-			tile = tile >> 1
+		# build a mask for a single row (first bit is 2**0)
+		base_mask = (1 << (self.width)) - 1
+		for row in range(self.height):
+			mask = base_mask << row*self.width
+			current_row = (mask & tile) >> row*self.width
+			col = 0 # or from the other side?
+			while current_row != 0:
+				# print("row:", row, current_row)
+				if current_row % 2 == 1:
+					syllables.append((row, col))
+					# print("ding")
+				col += 1
+				current_row = current_row >> 1
 
 		return syllables
+
+
+
+
 
 
 
