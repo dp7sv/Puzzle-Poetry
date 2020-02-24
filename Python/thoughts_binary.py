@@ -74,11 +74,19 @@ class Problem(object):
 
 		tile_rotations = [self.syllables_to_tile(s) for s in syllable_rotations]
 
-		return tile_rotations
+
+		print(tile_rotations[2])
+		Problem.print_matrix(Problem.syllables_to_matrix(self.tile_to_syllables(tile_rotations[2]), 10, 6))
 
 		# fix them to top left
+		for i, rotation in enumerate(syllable_rotations):
+			min_x = min(rotation, key=lambda x: x[1])[1]
+			print(i, min_x)
+			# max_y = max(rotation, key=lambda x: x[0])[0]
+			max_y = 0
+			tile_rotations[i] = tile_rotations[i] << (min_x + max_y*self.width)
 
-		# tile_rotations = []
+		return tile_rotations
 
 		# for i in range(4):
 		# 	tile = self.syllables_to_tile(syllables)
@@ -140,8 +148,8 @@ class Problem(object):
 
 
 	@staticmethod
-	def syllables_to_matrix(syllables):
-		m = [[0 for i in range(5)] for j in range(5)]
+	def syllables_to_matrix(syllables, width=5, height=5):
+		m = [[0 for i in range(width)] for j in range(height)]
 		for row, column in syllables:
 			m[row][column] = 1
 		return m
