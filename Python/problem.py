@@ -30,6 +30,9 @@ class Problem(object):
 		self.S = []
 
 
+		self.level_to_tiles = {}
+
+
 	"""
 
 things I need on a branch
@@ -142,10 +145,11 @@ while Q:
 
 	def tile_orientations(self, level):
 
-		
+		if level in self.level_to_tiles:
+			return self.level_to_tiles[level]
 		
 		# get board size and determine how big the base of the mask is
-		x_length, y_length = self.width, self.height
+		# x_length, y_length = self.width, self.height
 
 		# get the tile as a set of syllables
 		syllables = self.raw_tiles[level]
@@ -192,7 +196,8 @@ while Q:
 					tile = rotation << (right_shift + self.width*bottom_shift)
 					tiles.append(tile)
 
-		return tiles
+		self.level_to_tiles[level] = tiles
+		return self.level_to_tiles[level]
 
 		"""
 

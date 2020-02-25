@@ -17,6 +17,7 @@ Some of my scribbles I worked earlier. Trying to enumerate tile orientations.
 
 
 
+
 ## Other notes
 
 - maybe fast check contigious spaces
