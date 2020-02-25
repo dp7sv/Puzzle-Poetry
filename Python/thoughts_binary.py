@@ -72,6 +72,7 @@ class Problem(object):
 			syllables = Problem.rotate_syllables(syllables)
 			syllable_rotations.append(syllables)
 
+
 		tile_rotations = [self.syllables_to_tile(s) for s in syllable_rotations]
 
 
@@ -87,6 +88,9 @@ class Problem(object):
 			tile_rotations[i] = tile_rotations[i] >> (min_x + min_y*self.width)
 
 
+		# this is a stupid thing to do
+		syllable_rotations[:] = [self.tile_to_syllables(tile) for tile in tile_rotations]
+
 
 		tiles = []
 		for i, rotation in enumerate(tile_rotations):
@@ -95,12 +99,12 @@ class Problem(object):
 
 			# putting it into matrix reverses the number. so right shifting the integer
 			# shifts numbers to the left in the board
-			print("#"*20)
-			print(self.width - max_x, self.height - max_y)
-			print("max_x:", max_x, "max_y:", max_y, "height:", self.height, "width:", self.width)
-			Problem.print_matrix(Problem.syllables_to_matrix(self.tile_to_syllables(tile_rotations[i]), 10, 6))
-			for right_shift in range(min(self.width - max_x, 2)):
-				for bottom_shift in range(min(self.height - max_y, 2)):
+			# print("#"*20)
+			# print(self.width - max_x - 1, self.height - max_y - 1)
+			# print("max_x:", max_x, "max_y:", max_y, "height:", self.height, "width:", self.width)
+			# Problem.print_matrix(Problem.syllables_to_matrix(self.tile_to_syllables(tile_rotations[i]), 10, 6))
+			for right_shift in range(self.width - max_x):
+				for bottom_shift in range(self.height - max_y):
 					tile = rotation << (right_shift + self.width*bottom_shift)
 					tiles.append(tile)
 
@@ -158,7 +162,7 @@ class Problem(object):
 
 	# Syllables are row major
 	def syllables_to_tile(self, syllables):
-		print(syllables)
+		# print(syllables)
 		tile = 0
 		for row, column in syllables:
 			tile += 1 << (row*self.width + column)

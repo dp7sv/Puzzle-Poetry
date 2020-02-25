@@ -20,9 +20,10 @@ def print_syllables(syllables):
 # print("\n\n")
 # print_syllables(Problem.rotate_syllables(pentominoes[0]))
 
-# for t in problem.tile_orientations(0):
-# 	print_syllables(problem.tile_to_syllables(t))
-
+for tile in problem.tile_orientations(0):
+	# print_syllables(problem.tile_to_syllables(tile))
+	# print(tile)
+# print(len(problem.tile_orientations(0)))
 
 # print("409993216 << 0")
 # print_syllables(problem.tile_to_syllables(409993216))
@@ -40,11 +41,11 @@ def print_syllables(syllables):
 # 	print_syllables(problem.tile_to_syllables(409993216 << i))
 
 
-for i in range(60):
-	print("1 <<", i)
-	print_syllables(problem.tile_to_syllables(1 << i))
+# for i in range(60):
+# 	print("1 <<", i)
+# 	print_syllables(problem.tile_to_syllables(1 << i))
 
 
-print(problem.tile_to_syllables(1))
+# print(problem.tile_to_syllables(1))
 
 # height width was inverse so re test everything
