@@ -5,6 +5,11 @@ import java.util.Scanner;
 
 public class BruteForce {
 
+	/**Main method that does things
+	 * 
+	 * @param args unused
+	 * @throws FileNotFoundException proper form... right...?
+	 */
 	public static void main(String[] args) throws FileNotFoundException {
 
 		// define path to files containing tiles and poem
@@ -14,18 +19,10 @@ public class BruteForce {
 		// parsing file into set of words
 		ArrayList<Long> words = parseWordsFromFile(poemSRC);
 
-		// print out each word for testing
-		// words.forEach(i -> System.out.printf("%x\n", i));
-
 		// scan in tiles from file
 		ArrayList<Long> tiles = parseTilesFromFile(tileSRC);
 
-		// print out each word for testing
-		// tiles.forEach(i -> System.out.printf("%x\n", i));
-
-		// method for randomizing order of tiles used for testing
-		// shuffle(tiles);
-
+		//tile poem with tiles
 		tile(tiles, words, "");
 
 		// should exit if solution is found
@@ -89,8 +86,6 @@ public class BruteForce {
 						t.add(tile);
 						return;
 					} else {
-						// System.out.println("Placed tile " + (12 - t.size()) + " at (" + i + ", " + j
-						// + ")");
 						tile(t, w, p + "Shift tile " + (12 - t.size()) + " (0x" + Long.toHexString(tile) + ") by (" + i
 								+ ", " + j + ")\n");
 						w.addAll(usedWords);
@@ -221,6 +216,15 @@ public class BruteForce {
 	 */
 	public static void shuffle(ArrayList<Long> l) {
 		l.sort((i, j) -> (int) (Math.random() * 50 - 25));
+	}
+
+	/**
+	 * method used in testing to print each value in an ArrayList of Longs
+	 * 
+	 * @param l ArrayList of longs to be printed
+	 */
+	public static void print(ArrayList<Long> l) {
+		l.forEach(i -> System.out.printf("%x\n", i));
 	}
 
 }
