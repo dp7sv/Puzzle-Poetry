@@ -1,4 +1,4 @@
-from thoughts_binary import Problem
+from problem import Problem
 
 
 

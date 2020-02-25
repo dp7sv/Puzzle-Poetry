@@ -1,4 +1,4 @@
-
+from state import State
 
 
 # S = []	# solutions
@@ -20,24 +20,108 @@ class Problem(object):
 		Set the level structure so that every time you branch, you remember the tile orientation you branched off of in some class variable		
 	"""
 	# take kwargs?
-	def __init__(self, *, width, height, pentominoes):
+	def __init__(self, *, width, height, pentominoes, words=[]):
 
 
 		self.width, self.height = width, height
-
+		self.words = []
 		self.raw_tiles = pentominoes.copy()
 
+		self.S = []
+
+
+	"""
+
+things I need on a branch
+
+board
+level
+access to precomputed stuff
+
+
+
+Problem
+	metadata
+	states
+
+State
+	previous state
+	level
+	current board
+
+
+
+S = []	# final states that are solutions
+Q = [starting_state]  # mid states that are not solutions
+while Q:
+	N = Q.pop(0)
+	if N.level == 0:
+		S.append(N)
+	else:
+		for Ni in Problem.branch(pointer to the current state, level of that state, state of the board)
+				Q.append(Ni)
 
 
 
 
-	def is_valid(self):
+	"""
+
+	def solve(self):
+		S = []
+
+		initial_state = State(parent=None, level=len(self.raw_tiles), board=0)
+		Q = [initial_state]
+
+		while Q:
+			state = Q.pop(0)
+			if state.level == 0:
+				S.append(state)
+			else:
+				for state_i in self.branch(state):
+					Q.append(state_i)
+
+		self.S = S
+
+	def branch(self, parent):
+
 		"""
-
+		Return possible next states given a parent state
+		# ((word ^ tile) & word) == 0 means word is fully covered given it's stepped on
 		"""
-		pass
+		level = parent.level - 1
+		board = parent.board
+		states = []
 
-	def branch(self):
+		for tile in self.tile_orientations(level):
+
+			# continue if tile steps on a word and doesn't cover it
+
+			tile_bad = False
+			for words in self.words:
+				if tile & word != 0: # if tile hits the word
+					if 0 != ((word ^ tile) & word): 
+						tile_bad = True
+						break
+			if tile_bad:
+				continue
+
+
+			# continue if tile steps on another tile
+
+			if (tile ^ board) != (tile | board):
+				continue
+			
+			
+			# tile is good
+			
+			state = State(parent=parent, level=level, board=(board|tile))
+			states.append(state)
+
+		return states
+
+
+
+
 		"""
 		get current level
 		get the tile
@@ -54,7 +138,7 @@ class Problem(object):
 			yield
 
 		"""
-		pass
+
 
 	def tile_orientations(self, level):
 
@@ -187,6 +271,12 @@ class Problem(object):
 				current_row = current_row >> 1
 
 		return syllables
+
+
+
+
+
+
 
 
 

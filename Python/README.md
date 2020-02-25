@@ -4,10 +4,7 @@ Some of my scribbles I worked earlier. Trying to enumerate tile orientations.
 
 # Things to do
 
-- Be able to read in a set of syllables for tiles
-- Get all rotations of those tiles
-- Enumerate all possible tile orientation on the board
-
+- after you're done, study yields and see if you can yield instead of returning the entire enumarations 
 
 
 
