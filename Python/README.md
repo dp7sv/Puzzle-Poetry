@@ -4,13 +4,20 @@ Some of my scribbles I worked earlier. Trying to enumerate tile orientations.
 
 # Things to do
 
+- Fix the bug!
+
+
 - for a given state find the narrowest set of 0s. (bot horizontal and vertical)
 - for each state, remember the length of next shortest pentominoe
 - for each state if the next shortest pentominoe won't fit the narrowest entry, don't branch off of it
 
 - explore if we can order the pentominoes / levels to make this more powerful
 
+### Note
+- Can do look for the smallest cloud width bread first search too
 
+
+thread supervisor
 
 
 

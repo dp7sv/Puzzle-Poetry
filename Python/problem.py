@@ -285,14 +285,103 @@ while Q:
 
 		return syllables
 
+	
+	def find_next_narrowest_state(self):
+		pass
+		"""
+		For each level in the problem, find next_narrowest after (or including) that state
+		fix the code so that when a state is created, this value is preserved while branching
+		"""
 
 
+	@staticmethod
+	def find_narrowest_opening(board):
+		pass
+		"""
+		given the board, find the narrowest horizontal or vertical set of zeroes
+
+		can precompute this
+		for every piece of 6 or 10 (width or height)
+		calculate the solution for every integer possible before 2^(max(widht, height))
+		
+		then this function just becomes a lookup to that table
+			split the board to rows and lookup for each row
+			split the board to columns and lookup for each column
 
 
+		find_narrowest_opening for a num with length
+			num += 1 << (length + 1) # set this to make sure the highest bit in the number is a one
+			min_gap = length
+			current_gap = 0
+			while num != 0:
+				if num % 2 == 0:
+					current_gap += 1
+				else:
+					min_gap = min(min_gap, current_gap)
+					current_gap = 0
+				num = num >> 1
+			return min_gap
+		
+		
+		given a board (tile), width, and height: return a list of numbers to run find_narrowest_opening
+			rows = []
+			# build a mask for a single row (first bit is 2**0)
+			base_mask = (1 << (self.width)) - 1
+			for row in range(self.height):
+				mask = base_mask << row*self.width
+				current_row = (mask & tile) >> row*self.width
+				rows.append(current_row)
+
+			columns = []
+			# build a mask for a single column
+			base_mask = 0
+			for row in rows:
+				base_mask += 1 << row*self.width
+			for col in range(self.width):
+				mask = base_mask << col
+				current_col = (mask & tile) >> col
+				cols.append(current_col)
+			
+			return rows + columns
+
+		"""
+	
+
+	# inefficient for readibility
+	def get_rows(self, tile):
+		"""
+		given a tile, get the rows of it
+		"""
+		rows = []
+		# build a mask for a single row (first bit is 2**0)
+		base_mask = (1 << (self.width)) - 1
+		for row in range(self.height):
+				mask = base_mask << row*self.width
+				current_row = (mask & tile) >> row*self.width
+				rows.append(current_row)
+
+		return rows
 
 
+	# returns vertical!
+	def get_cols(self, tile):
+		"""
+		given a tile, get the columns of it
+		"""
+		columns = []
+		# build a mask for a single column
+		base_mask = 0
+		for row in range(self.height):
+			base_mask += 1 << row*self.width
+			for col in range(self.width):
+				mask = base_mask << col
+				current_col = (mask & tile) >> col
+				columns.append(current_col)
 
+		return columns
 
+	# get the board run these two, run find_narrowest_opening for a num for rows and something for cols
+	# return to minimum opening
 
 
 

@@ -4,3 +4,4 @@ class State(object):
 		self.parent = parent
 		self.level = level
 		self.board = board
+		self.next_shortest = None

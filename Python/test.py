@@ -20,7 +20,7 @@ def print_syllables(syllables):
 # print("\n\n")
 # print_syllables(Problem.rotate_syllables(pentominoes[0]))
 
-for tile in problem.tile_orientations(0):
+# for tile in problem.tile_orientations(0):
 	# print_syllables(problem.tile_to_syllables(tile))
 	# print(tile)
 # print(len(problem.tile_orientations(0)))
@@ -49,3 +49,13 @@ for tile in problem.tile_orientations(0):
 # print(problem.tile_to_syllables(1))
 
 # height width was inverse so re test everything
+
+tiles = [
+	31, 
+	(15 << 10) + (1 << 20), 
+	(1 + (1 << 10) + (7 <<20)) << 30, 
+	(6 + (2 << 10) + (6 << 20)) << 20,
+	((1 << 3) + (7 << 10) + (1 << 20)) << 20,
+]
+for tile in tiles:
+	print_syllables(problem.tile_to_syllables(tile))
