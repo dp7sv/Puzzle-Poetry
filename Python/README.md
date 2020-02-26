@@ -4,7 +4,11 @@ Some of my scribbles I worked earlier. Trying to enumerate tile orientations.
 
 # Things to do
 
-- after you're done, study yields and see if you can yield instead of returning the entire enumarations 
+- for a given state find the narrowest set of 0s. (bot horizontal and vertical)
+- for each state, remember the length of next shortest pentominoe
+- for each state if the next shortest pentominoe won't fit the narrowest entry, don't branch off of it
+
+- explore if we can order the pentominoes / levels to make this more powerful
 
 
 

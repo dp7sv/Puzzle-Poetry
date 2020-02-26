@@ -24,7 +24,7 @@ class Problem(object):
 
 
 		self.width, self.height = width, height
-		self.words = []
+		self.words = self.process_words(words)
 		self.raw_tiles = pentominoes.copy()
 
 		self.S = []
@@ -93,14 +93,13 @@ while Q:
 		"""
 		level = parent.level - 1
 		board = parent.board
-		states = []
 
 		for tile in self.tile_orientations(level):
 
 			# continue if tile steps on a word and doesn't cover it
 
 			tile_bad = False
-			for words in self.words:
+			for word in self.words:
 				if tile & word != 0: # if tile hits the word
 					if 0 != ((word ^ tile) & word): 
 						tile_bad = True
@@ -118,9 +117,8 @@ while Q:
 			# tile is good
 			
 			state = State(parent=parent, level=level, board=(board|tile))
-			states.append(state)
+			yield state
 
-		return states
 
 
 
@@ -247,6 +245,16 @@ while Q:
 		for row, column in syllables:
 			m[row][column] = 1
 		return m
+
+	def process_words(self, words):
+		"""
+		for word in words:
+			tile_words.append(syllables_to_tile(word))
+		"""
+		tile_words = []
+		for word in words:
+			tile_words.append(self.syllables_to_tile(word))
+		return tile_words
 
 
 	# Syllables are row major
