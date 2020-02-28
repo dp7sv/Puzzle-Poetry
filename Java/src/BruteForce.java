@@ -101,7 +101,7 @@ public class BruteForce {
 	}
 	
 	public static void allPentominoes() throws FileNotFoundException {
-		File ti = new File("./resources/allTiles.txt");
+		File ti = new File("./resources/allTilesOrdered.txt");
 		Scanner in = new Scanner(ti);
 		
 		ArrayList<Long> O = new ArrayList<Long>();
