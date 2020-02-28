@@ -4,9 +4,27 @@ from problem import Problem
 
 height = 6
 width = 10
+# pentominoes = [
+# 				[(0, 0), (0, 1), (1, 0), (1, 1), (1, 2)],
+# 			]
+
 pentominoes = [
-				[(0, 0), (0, 1), (1, 0), (1, 1), (1, 2)],
-			]
+
+	[(0, 0), (0, 1), (0, 2), (0, 3), (0, 4)],		# (I)
+	[(0, 0), (0, 1), (0, 2), (0, 3), (1, 0)],		# (L)
+	[(0, 0), (1, 0), (2, 0), (2, 1), (2, 2)],		# (V)
+	[(0, 0), (0, 1), (1, 0), (2, 0), (2, 1)],		# (U)
+	[(0, 1), (1, 0), (1, 1), (1, 2), (2, 1)],		# (X)
+	[(0, 2), (1, 1), (1, 2), (2, 0), (2, 1)],		# (W)
+	[(0, 1), (1, 0), (1, 1), (1, 2), (2, 0)],		# (F)
+	[(0, 1), (0, 2), (1, 1), (1, 2), (1, 3)],		# (N)
+	[(0, 1), (1, 0), (1, 1), (1, 2), (1, 3)],		# (Y)
+	[(0,0), (0,1), (1,1), (2,1), (2,2)],		# (Z)
+	[(0,0), (0,1), (1,0), (1,1), (2,1)],		# (P)
+	[(0,2), (1,0), (1,1), (1,2), (2,1)],		# (T)
+
+]
+
 
 problem = Problem(height=height, width=width, pentominoes=pentominoes)
 
@@ -51,11 +69,38 @@ def print_syllables(syllables):
 # height width was inverse so re test everything
 
 tiles = [
-	31, 
-	(15 << 10) + (1 << 20), 
-	(1 + (1 << 10) + (7 <<20)) << 30, 
-	(6 + (2 << 10) + (6 << 20)) << 20,
-	((1 << 3) + (7 << 10) + (1 << 20)) << 20,
+	31, # (I)
+	(15 << 10) + (1 << 20), # (L)
+	(1 + (1 << 10) + (7 <<20)) << 30, # (V)
+	(6 + (2 << 10) + (6 << 20)) << 20, # (U)
+	((1 << 3) + (7 << 12) + (1 << 23)) << 30, # (X)
+	((1 << 5) + (3 << 14) + (3 << 23)) << 30, # (W)
+	(1 << 5) + (7 << 14) + (1 << 24), # (F)
+	(3 << 5) + (7 << 16) << 20, # (N)
+	(1 << 6) + (15 << 15) << 40, # (Y)
+	(3 << 6) + (1 << 17) + (3 << 27), # (Z)
+	(3 << 8) + (3 << 18) + (1 << 29), # (P)
+	(1 << 9) + (7 << 17) + (1 << 29) << 30, # (T)
+	
+
 ]
-for tile in tiles:
+# for tile in tiles:
+# 	print_syllables(problem.tile_to_syllables(tile))
+
+for i in range(12):
+	print("level", i)
+	found = False
+	for tile in problem.tile_orientations(i):
+		
+		if tiles[i] == tile:
+			found = True
+			print("found for level", i, tile)
+
+	if not found:
+		print("could not found")
+		print_syllables(problem.tile_to_syllables(tiles[i]))
+
+
+for tile in problem.tile_orientations(10):
 	print_syllables(problem.tile_to_syllables(tile))
+	
