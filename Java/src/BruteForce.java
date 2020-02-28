@@ -12,6 +12,7 @@ public class BruteForce {
 	 */
 	public static void main(String[] args) throws FileNotFoundException {
 
+		allPentominoes();
 		// define path to files containing tiles and poem
 		String poemSRC = "./resources/poem1.txt";
 		String tileSRC = "./resources/tiles1.txt";
@@ -97,6 +98,115 @@ public class BruteForce {
 			}
 		}
 		t.add(tile);
+	}
+	
+	public static void allPentominoes() throws FileNotFoundException {
+		File ti = new File("./resources/allTiles.txt");
+		Scanner in = new Scanner(ti);
+		
+		ArrayList<Long> O = new ArrayList<Long>();
+		ArrayList<Long> P = new ArrayList<Long>();
+		ArrayList<Long> Q = new ArrayList<Long>();
+		ArrayList<Long> R = new ArrayList<Long>();
+		ArrayList<Long> S = new ArrayList<Long>();
+		ArrayList<Long> T = new ArrayList<Long>();
+		ArrayList<Long> U = new ArrayList<Long>();
+		ArrayList<Long> V = new ArrayList<Long>();
+		ArrayList<Long> W = new ArrayList<Long>();
+		ArrayList<Long> X = new ArrayList<Long>();
+		ArrayList<Long> Y = new ArrayList<Long>();
+		ArrayList<Long> Z = new ArrayList<Long>();
+		
+		for (int i = 0;i<2;i++) {
+			O.add(in.nextLong(16));
+		}
+		for (int i = 0;i<8;i++) {
+			P.add(in.nextLong(16));
+		}
+		for (int i = 0;i<8;i++) {
+			Q.add(in.nextLong(16));
+		}
+		for (int i = 0;i<8;i++) {
+			R.add(in.nextLong(16));
+		}
+		for (int i = 0;i<8;i++) {
+			S.add(in.nextLong(16));
+		}
+		for (int i = 0;i<4;i++) {
+			T.add(in.nextLong(16));
+		}
+		for (int i = 0;i<4;i++) {
+			U.add(in.nextLong(16));
+		}
+		for (int i = 0;i<4;i++) {
+			V.add(in.nextLong(16));
+		}
+		for (int i = 0;i<4;i++) {
+			W.add(in.nextLong(16));
+		}
+		for (int i = 0;i<1;i++) {
+			X.add(in.nextLong(16));
+		}
+		for (int i = 0;i<8;i++) {
+			Y.add(in.nextLong(16));
+		}
+		for (int i = 0;i<4;i++) {
+			Z.add(in.nextLong(16));
+		}
+		in.close();
+		String poemSRC = "./resources/poem1.txt";
+		ArrayList<Long> words = parseWordsFromFile(poemSRC);
+		ArrayList<Long> tiles = new ArrayList<Long>();
+		for(long o:O) {
+			tiles.add(o);
+			for(long p:P) {
+				tiles.add(p);
+				for(long q:Q) {
+					tiles.add(q);
+					for(long r:R) {
+						tiles.add(r);
+						for(long s:S) {
+							tiles.add(s);
+							for(long t:T) {
+								tiles.add(t);
+								for(long u:U) {
+									tiles.add(u);
+									for(long v:V) {
+										tiles.add(v);
+										for(long w:W) {
+											tiles.add(w);
+											for(long x:X) {
+												tiles.add(x);
+												for(long y:Y) {
+													tiles.add(y);
+													for(long z:Z) {
+														tiles.add(z);
+														tile(tiles, words, "");
+														tiles.remove(z);
+													}
+													tiles.remove(y);
+												}
+												tiles.remove(x);
+											}
+											tiles.remove(w);
+										}
+										tiles.remove(v);
+									}
+									tiles.remove(u);
+								}
+								tiles.remove(t);
+							}
+							tiles.remove(s);
+							System.out.println("here");
+						}
+						tiles.remove(r);
+					}
+					tiles.remove(q);
+				}
+				tiles.remove(p);
+			}
+			tiles.remove(o);
+		}
 	}
 
 	/**
