@@ -153,7 +153,8 @@ while Q:
 		syllables = self.raw_tiles[level]
 
 		syllable_rotations = [syllables]
-
+		# print("inside enumerations")
+		# Problem.print_matrix(Problem.syllables_to_matrix(syllables, 10, 6))
 		for i in range(3):
 			syllables = Problem.rotate_syllables(syllables)
 			syllable_rotations.append(syllables)
