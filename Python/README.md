@@ -4,8 +4,6 @@ Some of my scribbles I worked earlier. Trying to enumerate tile orientations.
 
 # Things to do
 
-- Fix the bug!
-
 
 - for a given state find the narrowest set of 0s. (bot horizontal and vertical)
 - for each state, remember the length of next shortest pentominoe
@@ -19,7 +17,7 @@ Some of my scribbles I worked earlier. Trying to enumerate tile orientations.
 
 thread supervisor
 
-
+run experiments on different ordering of pentominoes / levels
 
 
 
@@ -32,9 +30,6 @@ thread supervisor
 ## Other notes
 
 - maybe fast check contigious spaces
-- super vague idea
-	do some sort of version control instead storing copies of the board for each level. 
-	(like the hashy link list git uses)
 
 - pre-compute small chunks of boards. I.e.
     - here's this 5x6 board
@@ -56,13 +51,7 @@ Extras:
 	- bitsets
 	- python has built in large integers but it kills the purpose
 	- build for 6x10 for now, all small boards then, divide work into different variables
-- How to check crossing words
-	- 
-- How to branch and bound
 
-
-His stuff:
-- How to rotate and shift the tiles around
 
 
 

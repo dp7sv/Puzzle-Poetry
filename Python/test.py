@@ -87,20 +87,20 @@ tiles = [
 # for tile in tiles:
 # 	print_syllables(problem.tile_to_syllables(tile))
 
-for i in range(12):
-	print("level", i)
-	found = False
-	for tile in problem.tile_orientations(i):
+# for i in range(12):
+# 	print("level", i)
+# 	found = False
+# 	for tile in problem.tile_orientations(i):
 		
-		if tiles[i] == tile:
-			found = True
-			print("found for level", i, tile)
+# 		if tiles[i] == tile:
+# 			found = True
+# 			print("found for level", i, tile)
 
-	if not found:
-		print("could not found")
-		print_syllables(problem.tile_to_syllables(tiles[i]))
+# 	if not found:
+# 		print("could not found")
+# 		print_syllables(problem.tile_to_syllables(tiles[i]))
 
 
-# for tile in problem.tile_orientations(10):
-# 	print_syllables(problem.tile_to_syllables(tile))
-	
+for tile in problem.tile_orientations(4):
+	# print_syllables(problem.tile_to_syllables(tile))
+	pass

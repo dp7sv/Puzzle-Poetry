@@ -153,15 +153,14 @@ while Q:
 		syllables = self.raw_tiles[level]
 
 		syllable_rotations = [syllables]
-		# print("inside enumerations")
-		# Problem.print_matrix(Problem.syllables_to_matrix(syllables, 10, 6))
+
 		for i in range(3):
 			syllables = Problem.rotate_syllables(syllables)
 			syllable_rotations.append(syllables)
 
 
 		tile_rotations = [self.syllables_to_tile(s) for s in syllable_rotations]
-
+		
 
 		# print(tile_rotations[2])
 		# Problem.print_matrix(Problem.syllables_to_matrix(self.tile_to_syllables(tile_rotations[2]), 10, 6))
@@ -174,10 +173,10 @@ while Q:
 			# max_y = 0
 			tile_rotations[i] = tile_rotations[i] >> (min_x + min_y*self.width)
 
-
+		tile_rotations = list(set(tile_rotations))
 		# this is a stupid thing to do
 		syllable_rotations[:] = [self.tile_to_syllables(tile) for tile in tile_rotations]
-
+		
 
 		tiles = []
 		for i, rotation in enumerate(tile_rotations):
