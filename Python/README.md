@@ -19,7 +19,8 @@ thread supervisor
 
 run experiments on different ordering of pentominoes / levels
 
-
+somehow not try to place it to places that are not going to work
+	(e.g. there's something on the top left so ommit those from the search space)
 
 
 

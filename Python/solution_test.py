@@ -1,25 +1,44 @@
 from problem import Problem
-
+import time
 
 
 height = 6
 width = 10
+
 pentominoes = [
 
 	[(0,0), (0,1), (0,2), (0,3), (0,4)],		# (I) 
-	[(0,0), (0,1), (0,2), (0,3), (1,0)],		# (L)
-	[(0,0), (1,0), (2,0), (2,1), (2,2)],		# (V)
-	[(0,0), (0,1), (1,0), (2,0), (2,1)],		# (U)
 	[(0,1), (1,0), (1,1), (1,2), (2,1)],		# (X)
-	[(0,2), (1,1), (1,2), (2,0), (2,1)],		# (W)
-	[(0,1), (1,0), (1,1), (1,2), (2,0)],		# (F)
+	[(0,0), (0,1), (1,1), (2,1), (2,2)],		# (Z)
 	[(0,0), (0,1), (1,1), (1,2), (1,3)],		# (N)
 	[(0,1), (1,0), (1,1), (1,2), (1,3)],		# (Y)
-	[(0,0), (0,1), (1,1), (2,1), (2,2)],		# (Z)
-	[(0,0), (0,1), (1,0), (1,1), (2,1)],		# (P)
+	[(0,0), (0,1), (0,2), (0,3), (1,0)],		# (L)
 	[(0,2), (1,0), (1,1), (1,2), (2,2)],		# (T)
+	[(0,0), (1,0), (2,0), (2,1), (2,2)],		# (V)
+	[(0,2), (1,1), (1,2), (2,0), (2,1)],		# (W)
+	[(0,1), (1,0), (1,1), (1,2), (2,0)],		# (F)
+	[(0,0), (0,1), (1,0), (2,0), (2,1)],		# (U)
+	[(0,0), (0,1), (1,0), (1,1), (2,1)],		# (P)
 
-]  # list of final states = [32, 1162, 26263, 442839, 762954]
+]  # pid = 43951    portal pid = 127154  slurm job id = 3899072
+
+
+# pentominoes = [
+
+# 	[(0,0), (0,1), (0,2), (0,3), (0,4)],		# (I) 
+# 	[(0,0), (0,1), (0,2), (0,3), (1,0)],		# (L)
+# 	[(0,0), (1,0), (2,0), (2,1), (2,2)],		# (V)
+# 	[(0,0), (0,1), (1,0), (2,0), (2,1)],		# (U)
+# 	[(0,1), (1,0), (1,1), (1,2), (2,1)],		# (X)
+# 	[(0,2), (1,1), (1,2), (2,0), (2,1)],		# (W)
+# 	[(0,1), (1,0), (1,1), (1,2), (2,0)],		# (F)
+# 	[(0,0), (0,1), (1,1), (1,2), (1,3)],		# (N)
+# 	[(0,1), (1,0), (1,1), (1,2), (1,3)],		# (Y)
+# 	[(0,0), (0,1), (1,1), (2,1), (2,2)],		# (Z)
+# 	[(0,0), (0,1), (1,0), (1,1), (2,1)],		# (P)
+# 	[(0,2), (1,0), (1,1), (1,2), (2,2)],		# (T)
+
+# ]  # list of final states = [32, 1162, 26263, 442839, 762954]
 	# with easy words = [19, 277, 2192, 7869, 4298, 4074, 3165, 668, 241, 33, 1, 1]
 # desmos inputs: (0, 32), (1, 1162), (2, 26263), (3, 442839), (4, 762954)
 #				(0, 19), (1, 277), (2, 2192), (3, 7869), (4, 4298), (5, 4074), (6, 3165), (7, 668), (8, 241), (9, 33), (10, 1), (11, 1)
@@ -42,7 +61,7 @@ easier_words = [
 ]
 
 
-problem = Problem(height=height, width=width, pentominoes=pentominoes, words=easier_words)
+problem = Problem(height=height, width=width, pentominoes=pentominoes, words=words)
 
 def print_syllables(syllables):
 	print(syllables)
@@ -60,14 +79,16 @@ def print_solution(problem, index=0):
 		print_syllables(problem.tile_to_syllables(state.board))
 		state = state.parent
 
-
+start_time = time.time()
 problem.solve()
+end_time = time.time()
 print_solution(problem)
 
 for key in problem.level_to_tiles:
 	print(len(problem.level_to_tiles[key]))
 
-print(len(problem.S))
+print("Solutions Found: ", len(problem.S))
+print("Time taken:", end_time-start_time)
 # print(problem.words)
 # print_tiles(problem.words, problem)
 
