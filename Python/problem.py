@@ -28,6 +28,7 @@ class Problem(object):
 		self.raw_tiles = pentominoes.copy()
 
 		self.S = []
+		self.states_explored = 0 # for debugging/analysis
 
 
 		self.level_to_tiles = {}
@@ -69,16 +70,24 @@ while Q:
 
 	"""
 
-	def solve(self):
+	def solve(self, bfs=True, one_solution=False):
+		"""
+		not bfs = dfs
+		"""
 		S = []
+		self.states_explored = 1
 
 		initial_state = State(parent=None, level=len(self.raw_tiles), board=0)
 		Q = [initial_state]
 
 		while Q:
-			state = Q.pop(0)
+			state = Q.pop(0 if bfs else -1)
+			self.states_explored += 1
 			if state.level == 0:
 				S.append(state)
+				if one_solution:
+					self.S = [state]
+					return
 			else:
 				for state_i in self.branch(state):
 					Q.append(state_i)
@@ -115,6 +124,18 @@ while Q:
 			
 			
 			# tile is good
+
+			# Apply bounding here
+			"""
+			board = board | tile
+			
+			if boundary conditions bad:
+				remove state
+			
+			if heuristics bad:
+				lower priority
+
+			"""
 			
 			state = State(parent=parent, level=level, board=(board|tile))
 			yield state

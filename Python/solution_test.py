@@ -60,8 +60,15 @@ easier_words = [
 
 ]
 
+semi_easier_words = [
+	[(0, 1), (0, 2), (0, 3), (0, 4)], [(0, 8), (0, 9)],
+	[(1, 2), (1, 3)], [(1, 5), (1, 6)],
+	[(3, 6), (3, 7), (3, 8)],
+	[(4, 1), (4, 2)], [(4, 7), (4, 8), (4, 9)],
+	[(5, 5), (5, 6)],
+]
 
-problem = Problem(height=height, width=width, pentominoes=pentominoes, words=words)
+problem = Problem(height=height, width=width, pentominoes=pentominoes, words=semi_easier_words)
 
 def print_syllables(syllables):
 	print(syllables)
@@ -80,17 +87,26 @@ def print_solution(problem, index=0):
 		state = state.parent
 
 start_time = time.time()
-problem.solve()
+problem.solve(bfs=False, one_solution=False)
 end_time = time.time()
-print_solution(problem)
+# print_solution(problem)
 
-for key in problem.level_to_tiles:
-	print(len(problem.level_to_tiles[key]))
+# for key in problem.level_to_tiles:
+# 	print(len(problem.level_to_tiles[key]))
 
 print("Solutions Found: ", len(problem.S))
 print("Time taken:", end_time-start_time)
+print("States explored:", problem.states_explored)
 # print(problem.words)
 # print_tiles(problem.words, problem)
 
 # for word in easier_words:
 # 	print_syllables(word)
+
+start_time = time.time()
+problem.solve(bfs=False, one_solution=True)
+end_time = time.time()
+
+print("Solutions Found: ", len(problem.S))
+print("Time taken:", end_time-start_time)
+print("States explored:", problem.states_explored)
