@@ -1,6 +1,13 @@
+h = None
+O = None
+k = 0
+
+
 
 
 def search(k):
+	global h, O
+
 	if h.r == h:
 		print_solution()
 		return
@@ -37,6 +44,8 @@ def search(k):
 
 
 def print_solution():
+	global O
+
 	for Oi in reversed(O):
 		print(Oi.c.n)
 		o = Oi.r
@@ -46,6 +55,8 @@ def print_solution():
 
 
 def choose_column():
+	global h
+
 	s = float("inf")
 
 	j = h.r
@@ -98,3 +109,37 @@ def uncover_column(c):
 	# then add the column back to the header list
 	c.r.l = c
 	c.l.r = c
+
+
+class Dancer():
+	def __init__():
+		pass
+
+
+class ColumnObject():
+	def __init__():
+		self.l, self.r, self.u, self.d = None
+		self.n, self.s = None
+
+
+# height x width (taller == more rows, wider == more columns)
+def setup(height, width, matrix, names):
+	global h, O
+
+	h = ColumnObject()
+
+	previous = h
+	for column in range(width):
+		# set the column objects with its name, left, and right.
+		c = ColumnObject()
+		c.n = names[column]
+		c.l = previous
+		previous.r = c
+
+
+	# do this for exact cover 
+	# but it should be about our problem later
+		# enumerate tile orientations
+		# discard the ones that crosses the words
+
+
