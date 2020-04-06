@@ -75,6 +75,7 @@ def print_solution():
 			print(o.c.n, end=" ")
 			o = o.r
 		print()
+	print("end of solution")
 
 # Loop overall column objects and pick the one with the minimum size
 def choose_column():
