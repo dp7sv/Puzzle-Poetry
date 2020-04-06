@@ -242,39 +242,45 @@ iterate the row
 		# discard the ones that crosses the words
 
 
+k = None
+O = None
+h = None
+
+def main(height, width, matrix, names):
+	global k, O, h
+
+	h, columns, dancers = setup(height, width, matrix, names)
+
+	# for column in columns:
+	# 	print(column.n, end=" ")
+	# print()
+
+	# for row in dancers:
+	# 	for dancer in row:
+	# 		print(0 if dancer is None else dancer.c.n, end=' ')
+	# 	print("")
 
 
+	k = 0
+	O = [None for i in range(k+1)]
 
-height = 6
-width = 7
+	print("results:")
 
-names = ['A', 'B', 'C', 'D', 'E', 'F', 'G']
-matrix = [ #  A, B, C, D, E, F, G,
-	[0, 0, 1, 0, 1, 1, 0],
-	[1, 0, 0, 1, 0, 0, 1],
-	[0, 1, 1, 0, 0, 1, 0],
-	[1, 0, 0, 1, 0, 0, 0],
-	[0, 1, 0, 0, 0, 0, 1],
-	[0, 0, 0, 1, 1, 0, 1],
-]
+	search(k)
 
+if __name__ == "__main__":
+	height = 6
+	width = 7
 
-h, columns, dancers = setup(height, width, matrix, names)
+	names = ['A', 'B', 'C', 'D', 'E', 'F', 'G']
+	matrix = [  # A, B, C, D, E, F, G,
+		[0, 0, 1, 0, 1, 1, 0],
+		[1, 0, 0, 1, 0, 0, 1],
+		[0, 1, 1, 0, 0, 1, 0],
+		[1, 0, 0, 1, 0, 0, 0],
+		[0, 1, 0, 0, 0, 0, 1],
+		[0, 0, 0, 1, 1, 0, 1],
+	]
 
-# for column in columns:
-# 	print(column.n, end=" ")
-# print()
-
-for row in dancers:
-	for dancer in row:
-		print(0 if dancer is None else dancer.c.n, end=' ')
-	print("")
-
-
-k = 0
-O = [None for i in range(k+1)]
-
-print("results:")
-
-search(k)
+	main(height, width, matrix, names)
 

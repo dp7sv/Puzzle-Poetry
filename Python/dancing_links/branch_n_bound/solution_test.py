@@ -68,7 +68,7 @@ semi_easier_words = [
 	[(5, 5), (5, 6)],
 ]
 
-problem = Problem(height=height, width=width, pentominoes=pentominoes, words=easier_words)
+problem = Problem(height=height, width=width, pentominoes=pentominoes, words=words)
 
 def print_syllables(syllables):
 	print(syllables)
@@ -86,41 +86,52 @@ def print_solution(problem, index=0):
 		print_syllables(problem.tile_to_syllables(state.board))
 		state = state.parent
 
-start_time = time.time()
-problem.solve()
-end_time = time.time()
 
-# for i in range(len(problem.S)):
-# 	state = problem.S[i][0]
-# 	print(print_syllables(problem.tile_to_syllables(state.board)))
 
-print('Solutions Found: ', len(problem.S))
-print('Time taken:', end_time-start_time)
-print('States explored:', problem.states_explored)
 
-entries = []
-for level, orientations in enumerate(problem.S):
-	for orientation in orientations:
-		# build the row
-		entry = [0 for i in range(len(pentominoes) + height*width)]
+def reduce_to_X():
+	global height, width, pentominoes, words, easier_words, semi_easier_words, problem
 
-		# mark the pentominoe
-		entry[level] = 1
+	start_time = time.time()
+	problem.solve()
+	end_time = time.time()
 
-		# mark the points the pentominoe covers
-		syllables = problem.tile_to_syllables(orientation.board)
-		for syllable in syllables:
-			entry[len(pentominoes) + syllable[0]*width + syllable[1]] = 1
-		
-		entries.append(entry)
+	# for i in range(len(problem.S)):
+	# 	state = problem.S[i][0]
+	# 	print(print_syllables(problem.tile_to_syllables(state.board)))
 
-# pentominoe names + locations (row major)
-names = ['I', 'X', 'Z', 'N', 'Y', 'L', 'T', 'V', 'W', 'F', 'U', 'P']
+	print('Solutions Found: ', len(problem.S))
+	print('Time taken:', end_time-start_time)
+	print('States explored:', problem.states_explored)
 
-for i in range(height):
-	for j in range(width):
-		names.append('r' + str(i) + 'c' + str(j))
+	entries = []
+	for level, orientations in enumerate(problem.S):
+		for orientation in orientations:
+			# build the row
+			entry = [0 for i in range(len(pentominoes) + height*width)]
 
-# print(names)
-print(entries[0])
-print(len(entries))
+			# mark the pentominoe
+			entry[level] = 1
+
+			# mark the points the pentominoe covers
+			syllables = problem.tile_to_syllables(orientation.board)
+			for syllable in syllables:
+				entry[len(pentominoes) + syllable[0]*width + syllable[1]] = 1
+			
+			entries.append(entry)
+
+	# pentominoe names + locations (row major)
+	names = ['I', 'X', 'Z', 'N', 'Y', 'L', 'T', 'V', 'W', 'F', 'U', 'P']
+
+	for i in range(height):
+		for j in range(width):
+			names.append('r' + str(i) + 'c' + str(j))
+
+	return height, width, entries, names
+
+if __name__ == "__main__":
+	height, width, entries, names = reduce_to_X()
+
+	# print(names)
+	print(entries[0])
+	print(len(entries))
