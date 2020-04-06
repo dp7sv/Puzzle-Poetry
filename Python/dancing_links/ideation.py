@@ -1,11 +1,30 @@
-h = None
-O = None
-k = 0
+def printer(func):
 
+	def wrapper(*args, **kwargs):
 
+		print(func.__name__, "started")
+		result = func(*args, **kwargs)
+		print(func.__name__, "finished")
+
+		return result
+
+	return wrapper
 
 
 def search(k):
+	"""
+	if nothing left in the graph (Exact cover)
+		print result
+	pick a column and cover it
+	for each row
+		select a row
+		cover all the columns this row crosses
+		search inside remaining graph
+		record the result
+		undo everything
+
+
+	"""
 	global h, O
 
 	if h.r == h:
@@ -19,12 +38,15 @@ def search(k):
 	# loop over all rows. Stop if r hits the header of the column (c)
 	r = c.d
 	while r != c:
-		O[k] = r
+		if len(O) <= k:
+			O.append(r)
+		else:
+			O[k] = r
 
 		# cover the columns this row already covers
 		j = r.r
 		while j != r:
-			cover_column(j)
+			cover_column(j.c)
 			j = j.r
 		
 		search(k+1)
@@ -34,7 +56,7 @@ def search(k):
 		# undo your work of colver_columns
 		j = r.l
 		while j != r:
-			uncover_column(j)
+			uncover_column(j.c)
 			j = j.l
 
 		r = r.d
@@ -47,13 +69,14 @@ def print_solution():
 	global O
 
 	for Oi in reversed(O):
-		print(Oi.c.n)
+		print(Oi.n, Oi.c.n, end=" ")
 		o = Oi.r
 		while o != Oi:
-			print(o.c.n)
+			print(o.c.n, end=" ")
 			o = o.r
+		print()
 
-
+# Loop overall column objects and pick the one with the minimum size
 def choose_column():
 	global h
 
@@ -69,12 +92,13 @@ def choose_column():
 	return c
 
 
+# cover the column and all rows crossing it
 def cover_column(c):
 	# remove c from the header list (a.k.a cover c)
 	c.r.l = c.l
 	c.l.r = c.r
 
-	# remove/cover all rows appearing in c on other columns
+	# cover all rows that cross c
 	i = c.d
 	while i != c:
 		j = i.r
@@ -112,29 +136,104 @@ def uncover_column(c):
 
 
 class Dancer():
-	def __init__():
-		pass
+	def __init__(self):
+		self.l, self.r, self.u, self.d = None, None, None, None
+		self.c = None
 
 
 class ColumnObject():
-	def __init__():
-		self.l, self.r, self.u, self.d = None
-		self.n, self.s = None
+	def __init__(self):
+		self.l, self.r, self.u, self.d = None, None, None, None
+		self.n, self.s = None, None
 
 
 # height x width (taller == more rows, wider == more columns)
+# @printer
 def setup(height, width, matrix, names):
 	global h, O
 
-	h = ColumnObject()
 
-	previous = h
-	for column in range(width):
-		# set the column objects with its name, left, and right.
-		c = ColumnObject()
-		c.n = names[column]
-		c.l = previous
-		previous.r = c
+	# Make widht many columns
+	columns = [None for column in range(width)]
+	for j in range(width):
+		columns[j] = ColumnObject()
+
+	# Set its attrs (not setting c because I didn't know if it was useful)
+	for j in range(width):
+		columns[j].r = columns[(j+1)%width]
+		columns[j].l = columns[(j-1)%width]
+
+		columns[j].n = names[j]
+		# Set u, d, and s later
+
+	# Set h
+	h = ColumnObject()
+	h.r = columns[0]
+	columns[0].l = h
+	h.l = columns[-1]
+	columns[-1].r = h
+
+
+
+	dancers = [[None for column in range(width)] for row in range(height)]
+	# Make height * width many dancers
+	for i in range(height):
+		for j in range(width):
+			dancers[i][j] = Dancer()
+
+	# Loop in dancers, set attributes for all
+	for i in range(height):
+		for j in range(width):
+			dancers[i][j].r = dancers[i][(j+1)%width]
+			dancers[i][j].l = dancers[i][(j-1)%width]
+
+			dancers[i][j].u = dancers[(i-1)%height][j]
+			dancers[i][j].d = dancers[(i+1)%height][j]
+
+			dancers[i][j].c = columns[j]
+			dancers[i][j].n = "r" + str(i)
+
+	# connect column headers with dancers
+	for j in range(width):
+		dancers[0][j].u = columns[j]
+		columns[j].d = dancers[0][j]
+
+		dancers[-1][j].d = columns[j]
+		columns[j].u = dancers[-1][j]
+
+	# Uncover and delete all zeroes
+	for i in range(height):
+		for j in range(width):
+			if matrix[i][j] == 0:
+				# delete object
+				dancer = dancers[i][j]
+				dancer.u.d = dancer.d
+				dancer.d.u = dancer.u
+				dancer.l.r = dancer.r
+				dancer.r.l = dancer.l
+
+				# Trigger garbage collection early? For reasons?
+				dancers[i][j] = None
+
+	# Set the size of the columns
+	for c in columns:
+		i = c.d
+		size = 0
+		while i != c:
+			size += 1
+			i = i.d
+		c.s = size
+
+	return h, columns, dancers
+
+
+"""
+
+iterate the row
+
+
+"""
+
 
 
 	# do this for exact cover 
@@ -142,4 +241,40 @@ def setup(height, width, matrix, names):
 		# enumerate tile orientations
 		# discard the ones that crosses the words
 
+
+
+
+
+height = 6
+width = 7
+
+names = ['A', 'B', 'C', 'D', 'E', 'F', 'G']
+matrix = [ #  A, B, C, D, E, F, G,
+	[0, 0, 1, 0, 1, 1, 0],
+	[1, 0, 0, 1, 0, 0, 1],
+	[0, 1, 1, 0, 0, 1, 0],
+	[1, 0, 0, 1, 0, 0, 0],
+	[0, 1, 0, 0, 0, 0, 1],
+	[0, 0, 0, 1, 1, 0, 1],
+]
+
+
+h, columns, dancers = setup(height, width, matrix, names)
+
+# for column in columns:
+# 	print(column.n, end=" ")
+# print()
+
+for row in dancers:
+	for dancer in row:
+		print(0 if dancer is None else dancer.c.n, end=' ')
+	print("")
+
+
+k = 0
+O = [None for i in range(k+1)]
+
+print("results:")
+
+search(k)
 
