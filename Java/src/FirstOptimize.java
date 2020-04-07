@@ -3,6 +3,8 @@ import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.Scanner;
 
+
+//doesn't work
 public class FirstOptimize {
 
 	public static void main(String[] args) throws FileNotFoundException {
@@ -69,7 +71,7 @@ public class FirstOptimize {
 			Z.add(in.nextLong(16));
 		}
 		in.close();
-		ArrayList<ArrayList<Long>> ret = new ArrayList<ArrayList<Long>>(12);
+		ArrayList<ArrayList<Long>> ret = new ArrayList<ArrayList<Long>>();
 		ret.add(X);
 		ret.add(O);
 		ret.add(T);
@@ -112,8 +114,15 @@ public class FirstOptimize {
 	}
 
 	public static void tile(ArrayList<ArrayList<Long>> t, ArrayList<Long> w, String p) {
+		
+//		try {
+//			Thread.sleep(100);
+//		} catch (InterruptedException e) {
+//			e.printStackTrace();
+//		}
+		
 		ArrayList<Long> tiles = t.remove(t.size() - 1);
-		if (t.size() == 10) {
+		if (t.size() == 0) {
 			System.out.println("here");
 		}
 		for (long tile : tiles) {
@@ -163,8 +172,8 @@ public class FirstOptimize {
 							t.add(tiles);
 							return;
 						} else {
-							System.out.println("Placed tile " + (12 - t.size()) + " (0x" + Long.toHexString(tile)
-									+ ") at (" + i + ", " + j + ")");
+							//System.out.println("Placed tile " + (12 - t.size()) + " (0x" + Long.toHexString(tile)
+									//+ ") at (" + i + ", " + j + ")");
 							tile(t, w, p + "Shift tile " + (12 - t.size()) + " (0x" + Long.toHexString(tile) + ") by ("
 									+ i + ", " + j + ")\n");
 							w.addAll(usedWords);
