@@ -4,30 +4,33 @@ import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.Scanner;
 
-public class FourthOptimize {
+public class SixthOptimize {
 
 	static int count = 0;
-	
-	public static void main(String[] args) throws Throwable {
-		long t1 = System.currentTimeMillis();
-		String poemSRC = "./resources/poem2.txt";
-		ArrayList<Long> words = parseWordsFromFile(poemSRC);
-		ArrayList<ArrayList<Long>> p = Pentominoes();
-		for (int i = words.size() - 1; i >= 0; i--) {
-			if (countBits(words.get(i)) < 2) {
-				words.remove(i);
-			}
-		}
-		//words.clear();
-		String out = "./resources/test_sol_2.txt";
-		PrintWriter writer = new PrintWriter(out, "UTF-8");
-		solve(p, words, writer);
-		
+	static int block_depth = 12;
 
-		writer.println("finished in " + (System.currentTimeMillis()-t1) + " ms");
-		writer.println("found " + count + " solutions");
-		// should exit if solution is found
-		writer.println("a(nother) tiling of the poem could not be found");
+	public static void main(String[] args) throws Throwable {
+
+		String out = "./resources/test_sol_5.txt";
+		PrintWriter writer = new PrintWriter(out, "UTF-8");
+		for (; block_depth >= 0; block_depth--) {
+			long t1 = System.currentTimeMillis();
+			String poemSRC = "./resources/poem1.txt";
+			ArrayList<Long> words = parseWordsFromFile(poemSRC);
+			ArrayList<ArrayList<Long>> p = Pentominoes();
+			for (int i = words.size() - 1; i >= 0; i--) {
+				if (countBits(words.get(i)) < 2) {
+					words.remove(i);
+				}
+			}
+			words.clear();
+			solve(p, words, writer);
+
+			writer.println("finished in " + (System.currentTimeMillis() - t1) + " ms with block_depth " + block_depth);
+			writer.println("found " + count + " solutions");
+			// should exit if solution is found
+			writer.println("a(nother) tiling of the poem could not be found");
+		}
 		writer.close();
 
 	}
@@ -40,20 +43,38 @@ public class FourthOptimize {
 		select(allTiles, 0, 0l, "", writer);
 	}
 
-	public static void select(ArrayList<ArrayList<Long>> wordSets, int level, long board, String sol, PrintWriter writer) {
+	public static void select(ArrayList<ArrayList<Long>> wordSets, int level, long board, String sol,
+			PrintWriter writer) {
 		if (level == 12) {
-			System.out.println("Solution found!\n" + sol + "\n");
-			writer.println("Solution found!\n" + sol + "\n");
+			//System.out.println("Solution found!\n" + sol + "\n");
+			//writer.println("Solution found!\n" + sol + "\n");
 			count++;
-			//System.exit(0);// can be commented out if all solutions are desired
+			// System.exit(0);// can be commented out if all solutions are desired
 		} else {
 			// Location for any optimizations regarding viability of branch given board
 			// state
 
 			ArrayList<Long> tiles = wordSets.get(level);
 			for (long tile : tiles) {
-				if ((tile & board) == 0l) {
-					select(wordSets, level + 1, tile | board, sol + " " + Long.toString(tile,16), writer);
+				if ((tile & board) == 0l && fiveOpen(tile | board)) {
+					ArrayList<ArrayList<Long>> blocked = new ArrayList<ArrayList<Long>>();
+					for (int i = level + 1; i < block_depth; i++) {
+						ArrayList<Long> options = wordSets.get(i);
+						ArrayList<Long> temp = new ArrayList<Long>();
+						for (int j = options.size(); j-- > 0;) {
+							long temp2 = options.get(j);
+							if ((temp2 & tile) != 0l) {
+								options.remove(j);
+								temp.add(temp2);
+							}
+						}
+						blocked.add(temp);
+					}
+					select(wordSets, level + 1, tile | board, sol + " " + Long.toString(tile, 16), writer);
+					for (int i = level + 1; i < block_depth; i++) {
+						ArrayList<Long> options = wordSets.get(i);
+						options.addAll(blocked.get(i - level - 1));
+					}
 				}
 			}
 		}
@@ -78,7 +99,7 @@ public class FourthOptimize {
 								}
 							}
 						}
-						if (add) {
+						if (add && fiveOpen(temp)) {
 							l.add(temp);
 						}
 					}
@@ -184,31 +205,31 @@ public class FourthOptimize {
 		}
 		return ans;
 	}
-	
+
 	public static boolean fiveOpen(long x) {
-		x|=0xf000000000000000l;
-		while(x!=0xffffffffffffffffl) {
+		x |= 0xf000000000000000l;
+		while (x != 0xffffffffffffffffl) {
 			long temp0 = 0l;
 			long temp1 = 1l;
-			while(!((temp1&x)==0)) {
-				temp1<<=1l;
+			while (!((temp1 & x) == 0)) {
+				temp1 <<= 1l;
 			}
-			while(temp0!=temp1) {
+			while (temp0 != temp1) {
 				temp0 = temp1;
-				long temp5 = (temp0&(~0x0ffc000000000000l))<<10;
-				long temp2 = (temp0&(~0x00000000000003ffl))>>10;
-				long temp3 = (temp0&(~0x0802008020080200l))<<1;
-				long temp4 = (temp0&(~0x0004010040100401l))>>1;
-				temp1 = ((temp5|temp2|temp3|temp4)|(temp0))&(~x);
+				long temp5 = (temp0 & (~0x0ffc000000000000l)) << 10;
+				long temp2 = (temp0 & (~0x00000000000003ffl)) >> 10;
+				long temp3 = (temp0 & (~0x0802008020080200l)) << 1;
+				long temp4 = (temp0 & (~0x0004010040100401l)) >> 1;
+				temp1 = ((temp5 | temp2 | temp3 | temp4) | (temp0)) & (~x);
 			}
-			if(!(countBits(temp1)%5==0)) {
+			if (!(countBits(temp1) % 5 == 0)) {
 				return false;
 			}
-			x|=temp1;
-			
+			x |= temp1;
+
 		}
 		return true;
-		
+
 	}
 
 }

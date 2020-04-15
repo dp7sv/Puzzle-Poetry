@@ -4,6 +4,6 @@ Solution found!
 Solution found!
  101e 80e00800 c060100000000 80200e000000000 e060 8070080 30080300 781000000000000 70180000000000 c01006000000 200e01000000 10040100401
 
-finished in 3413 ms
+finished in 117 ms
 found 2 solutions
 a(nother) tiling of the poem could not be found

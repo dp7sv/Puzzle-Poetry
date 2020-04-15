@@ -3,11 +3,14 @@ import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.Scanner;
 
+
 public class SixByTen {
+
+	static int count = 0;
 	
 	public static void main(String [] args) throws FileNotFoundException {
 		long t1 = System.currentTimeMillis();
-		String poemSRC = "./resources/poem1.txt";
+		String poemSRC = "./resources/poem2.txt";
 		String solutions = "./resources/10x6solutions.txt";
 		ArrayList<Long> words = parseWordsFromFile(poemSRC);
 		for(int i = words.size()-1;i>=0;i--) {
@@ -17,6 +20,7 @@ public class SixByTen {
 		}
 		findSolutions(solutions, words);
 		System.out.println("finished in " + (System.currentTimeMillis()-t1) + " ms");
+		System.out.println("found " + count + " solutions");
 		
 	}
 	
@@ -55,6 +59,7 @@ public class SixByTen {
 			}
 			if(p) {
 				System.out.println("solution Found!");
+				count+=1;
 				print(tiles);
 			}
 		}

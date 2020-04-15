@@ -4,7 +4,7 @@ import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.Scanner;
 
-public class FourthOptimize {
+public class FifthOptimize {
 
 	static int count = 0;
 	
@@ -52,7 +52,7 @@ public class FourthOptimize {
 
 			ArrayList<Long> tiles = wordSets.get(level);
 			for (long tile : tiles) {
-				if ((tile & board) == 0l) {
+				if ((tile & board) == 0l && fiveOpen(tile|board)) {
 					select(wordSets, level + 1, tile | board, sol + " " + Long.toString(tile,16), writer);
 				}
 			}
@@ -78,7 +78,7 @@ public class FourthOptimize {
 								}
 							}
 						}
-						if (add) {
+						if (add&&fiveOpen(temp)) {
 							l.add(temp);
 						}
 					}

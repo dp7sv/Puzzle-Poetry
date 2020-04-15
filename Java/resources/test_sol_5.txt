@@ -1,0 +1,39 @@
+finished in 204296 ms with block_depth 12
+found 9356 solutions
+a(nother) tiling of the poem could not be found
+finished in 195166 ms with block_depth 11
+found 18712 solutions
+a(nother) tiling of the poem could not be found
+finished in 161671 ms with block_depth 10
+found 28068 solutions
+a(nother) tiling of the poem could not be found
+finished in 144645 ms with block_depth 9
+found 37424 solutions
+a(nother) tiling of the poem could not be found
+finished in 101236 ms with block_depth 8
+found 46780 solutions
+a(nother) tiling of the poem could not be found
+finished in 69484 ms with block_depth 7
+found 56136 solutions
+a(nother) tiling of the poem could not be found
+finished in 52634 ms with block_depth 6
+found 65492 solutions
+a(nother) tiling of the poem could not be found
+finished in 48739 ms with block_depth 5
+found 74848 solutions
+a(nother) tiling of the poem could not be found
+finished in 44890 ms with block_depth 4
+found 84204 solutions
+a(nother) tiling of the poem could not be found
+finished in 44459 ms with block_depth 3
+found 93560 solutions
+a(nother) tiling of the poem could not be found
+finished in 44553 ms with block_depth 2
+found 102916 solutions
+a(nother) tiling of the poem could not be found
+finished in 44542 ms with block_depth 1
+found 112272 solutions
+a(nother) tiling of the poem could not be found
+finished in 44487 ms with block_depth 0
+found 121628 solutions
+a(nother) tiling of the poem could not be found
