@@ -4,18 +4,26 @@ import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.Scanner;
 
-public class SixthOptimize {
+public class OneSolutionToFile {
 
 	static int count = 0;
 	static int block_depth = 2;
+	static boolean all = false;
 
 	public static void main(String[] args) throws Throwable {
 
-		String out = "./resources/test_sol_9.txt";
+		String out = "./resources/research/out.txt";
+		if(args.length>1&&args[1].equals("true")) {
+			all = true;
+		}
+		
 		PrintWriter writer = new PrintWriter(out, "UTF-8");
 		for (; block_depth >= 2; block_depth--) {
 			long t1 = System.currentTimeMillis();
-			String poemSRC = "./resources/poem2.txt";
+			String poemSRC = "./resources/research/poem2.txt";
+			if(args.length>0) {
+				poemSRC = args[0];
+			}
 			ArrayList<Long> words = parseWordsFromFile(poemSRC);
 			ArrayList<ArrayList<Long>> p = Pentominoes();
 			for (int i = words.size() - 1; i >= 0; i--) {
@@ -23,7 +31,6 @@ public class SixthOptimize {
 					words.remove(i);
 				}
 			}
-			words.clear();
 			solve(p, words, writer);
 
 			writer.println("finished in " + (System.currentTimeMillis() - t1) + " ms with block_depth " + block_depth);
@@ -47,7 +54,11 @@ public class SixthOptimize {
 			PrintWriter writer) {
 		if (level == 12) {
 			System.out.println("Solution found!\n" + sol + "\n");
-			writer.println("Solution found!\n" + sol + "\n");
+			writer.println(sol + "\n");
+			if(!all) {
+				writer.close();
+				System.exit(0);
+			}
 			count++;
 			// System.exit(0);// can be commented out if all solutions are desired
 		} else {
@@ -233,3 +244,4 @@ public class SixthOptimize {
 	}
 
 }
+

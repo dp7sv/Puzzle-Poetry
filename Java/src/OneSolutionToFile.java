@@ -4,18 +4,18 @@ import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.Scanner;
 
-public class SixthOptimize {
+public class OneSolutionToFile {
 
 	static int count = 0;
 	static int block_depth = 2;
 
 	public static void main(String[] args) throws Throwable {
 
-		String out = "./resources/test_sol_9.txt";
+		String out = "./resources/research/out.txt";
 		PrintWriter writer = new PrintWriter(out, "UTF-8");
 		for (; block_depth >= 2; block_depth--) {
 			long t1 = System.currentTimeMillis();
-			String poemSRC = "./resources/poem2.txt";
+			String poemSRC = "./resources/research/poem2.txt";
 			ArrayList<Long> words = parseWordsFromFile(poemSRC);
 			ArrayList<ArrayList<Long>> p = Pentominoes();
 			for (int i = words.size() - 1; i >= 0; i--) {
@@ -47,7 +47,9 @@ public class SixthOptimize {
 			PrintWriter writer) {
 		if (level == 12) {
 			System.out.println("Solution found!\n" + sol + "\n");
-			writer.println("Solution found!\n" + sol + "\n");
+			writer.println(sol + "\n");
+			writer.close();
+			System.exit(0);
 			count++;
 			// System.exit(0);// can be commented out if all solutions are desired
 		} else {
