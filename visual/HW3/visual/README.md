@@ -14,7 +14,7 @@ Two running options:
 
 Once compiled, use `make tile` to show all tilings
 
-* To set input file add src = <input poem>
+* To set input file add src="path-to-file"
 
 * To make it enumerate all tilings instead of just finding the first add all=true
 
@@ -26,7 +26,7 @@ Once compiled, `make run` can be used to view the current contents of `./resourc
 
 Without compiling or needing the library, `make solve` can be run to generate the solutions in `./resources/research/out.txt`
 
-* To set input file add src = <input poem>
+* To set input file add src="path-to-file"
 
 * To make it enumerate all tilings instead of just finding the first add all=true
 
