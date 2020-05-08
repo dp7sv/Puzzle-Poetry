@@ -2,7 +2,7 @@ Tile display engine
 
 For the program to view the tilings, the SDL2 graphics library is required
 
-* on Linux I ran: `sudo apt-get install &ast;SDL2&ast;`
+* on Linux I ran: `sudo apt-get install *SDL2*`
 
 * I have seen others use this library on OSX but am not sure how to install it there
 
