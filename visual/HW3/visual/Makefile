@@ -62,4 +62,6 @@ tile:
 	java OneSolutionToFile $(src) $(all)
 	./bin/myGame
 
-
+solve:
+	javac OneSolutionToFile.java
+	java OneSolutionToFile $(src) $(all)
